@@ -1,0 +1,13 @@
+POST http://127.0.0.1:8000/survivors/
+
+Content-Type:application/json
+
+{
+    "name": "Mauricio",
+    "age": "25",
+    "gender": "Male",
+    "location": {
+        "latitude": "2931.21",
+        "longitude": "2132.31"
+    }
+}

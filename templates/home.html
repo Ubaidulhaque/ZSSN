@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Hello</title>
+    <style>
+        .accor{
+            margin-top: 5cm;
+        }
+    </style>
+  </head>
+  <body>
+    
+    <div class="container">
+
+        <div class="accor">
+            <h1><span class="badge bg-secondary">All Survivors</span></h1>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+
+              </div>
+        </div>
+        
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+    <script>
+
+        let data = {
+                    "name": "Mauricio",
+                    "age": "25",
+                    "gender": "Male",
+                    "location": {
+                        "latitude": 2931.21,
+                        "longitude": 2132.31
+                    }
+                };
+        
+                // let options = {
+                //             method: 'GET',
+                //             headers: {
+                //                 'Content-Type': 
+                //                     'application/json;charset=utf-8'
+                //             },
+                //             body: JSON.stringify({data:data})
+                //         }
+        
+        const response = fetch('http://127.0.0.1:8000/survivors/')
+                            .then(res=>res.json())
+                                .then(data=> {
+
+                                    for(var i=0; i<data.data.length; i++)
+                                    {
+                                        let html = ` <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="heading${i}">
+                                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
+                                                           ${data.data[i].name}
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
+                                                                <p>Age- ${data.data[i].age}</p>
+                                                                <p>Gender- ${data.data[i].gender}</p>
+                                                                <p>location latitude- ${data.data[i].last_location.latitude}</p>
+                                                                <p>location longitude- ${data.data[i].last_location.longitude}</p>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        Resources
+                                                                    </button>
+                                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">`;
+                                                                        
+                                                                        
+                                                                            let new_html=``;
+                                                                            let arr = Object.entries(data.data[i].resources);
+                                                                            for(var j=0; j<arr.length; j++)
+                                                                            {
+                                                                                new_html += `<li><a class="dropdown-item" >${arr[j]}</a></li>`;
+                                                                            }
+
+                                                                            html += new_html;
+                                                                        
+                                                                    
+                                                                    html += `
+                                                                        
+                                                                                    </ul>
+                                                                                    </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>`;
+
+                                        document.getElementById('accordionExample').innerHTML += html;
+                                    }
+                                    console.log(data)
+                                })
+
+        // $(document).ready(function(){
+
+        //     function getCookie(name) {
+        //     let cookieValue = null;
+        //     if (document.cookie && document.cookie !== '') {
+        //         const cookies = document.cookie.split(';');
+        //         for (let i = 0; i < cookies.length; i++) {
+        //             const cookie = cookies[i].trim();
+        //             // Does this cookie string begin with the name we want?
+        //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     return cookieValue;
+        // }
+        // const csrftoken = getCookie('csrftoken');
+
+        // let data = {
+        //             "name": "Mauricio",
+        //             "age": "25",
+        //             "gender": "Male",
+        //             "location": {
+        //                 "latitude": 2931.21,
+        //                 "longitude": 2132.31
+        //             }
+        //         }
+
+        //     $.ajax({
+        //         url: 'http://127.0.0.1:8000/survivors/',
+        //         type:'POST',
+        //         dataType:'json',
+        //         data:data,
+        //         success:function(data){
+
+        //             console.log(data);
+        //         }
+        //     })
+
+        // })
+    </script>
+  </body>
+</html>
